@@ -17,8 +17,8 @@ EM_JS(void, copy_to_clipboard, (const char* data), {
             .then(() => {
               alert('Text copied.');
             })
-            .catch(() => {
-              alert('Failed to copy text.');
+            .catch((e) => {
+              alert('Failed to copy text. Error: '+e);
             });
 });
 
@@ -37,10 +37,13 @@ EM_JS(void, paste_from_clipboard, (int* address ), {
             });
 });
 
+extern "C" {
+
 void EMSCRIPTEN_KEEPALIVE setPasteText(const char* data,int* address) {
 QTextEdit *textEdit = (QTextEdit*)address;
 textEdit->setText(QString(data));
 
+}
 }
 
 
